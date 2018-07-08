@@ -1,0 +1,462 @@
+/** -------------------- CREATION FROM ARRAY ----------------- **/
+// create a linked list by inserting in the beginning
+link createFromArrayBegin(int* a, int n)
+{
+	link head =NULL;
+	for(int i=0;i<n;i++)
+	{
+		head = new node(a[i],head);
+		cout<<head->data<<" ,";
+	}
+
+return head;
+}
+
+//create a linked list by inserting at the end 
+
+link createFromArrayEnd(int a[],int n)
+{
+	link head= new node(a[0],NULL);
+	link temp=head;
+	for(int i=1;i<n;i++)
+	{
+		
+		link nn = new node(a[i],NULL);
+		temp->next = nn;
+		temp=nn;
+	}
+	
+	return head;
+}
+
+
+/** -------------------- INSERTION ----------------- **/
+// insert at the begin
+
+link insertAtBegin(link head, int d)
+{
+	if(head==NULL)
+	{
+		head = new node(d,NULL);
+	}
+	else
+	{
+		link n = new node(d,head);
+		head = n;
+	}
+	return head;
+}
+
+
+//insert at the end
+
+link insertAtEnd(link head, int d)
+{
+	if(head==NULL)
+	{
+		head = new node(d,NULL);
+	}
+	else
+	{
+		link temp=head;
+		while(temp->next!=NULL)
+			temp=temp->next;
+		
+		link n = new node(d,NULL);
+		temp->next=n;
+	}
+return head;
+}
+
+//insert at kth node
+link insertOnKthNode(link head,int k,int d)
+{
+	link temp = head;
+	link nnode = new node(d,NULL);
+	if(k==1)
+	{
+		nnode->next=head;
+		head=nnode;
+	}
+	else
+	{
+		int count=1;
+	while(temp!=NULL)
+	{
+		if(count==(k-1))
+		{
+			nnode->next=temp->next;
+			temp->next=nnode;
+		}
+		count++;
+		temp=temp->next;
+	}
+	
+	}
+	
+return head;
+}
+// insert after kth node
+link insertAfterKthNode(link head,int k,int d)
+{
+	link temp = head;
+	link nnode = new node(d,NULL);
+	if(k==1)
+	{
+		nnode->next=head->next;
+		head->next=nnode;
+	}
+	else
+	{
+		int count=1;
+	while(temp!=NULL)
+	{
+		if(count==(k))
+		{
+			nnode->next=temp->next;
+			temp->next=nnode;
+		}
+		count++;
+		temp=temp->next;
+	}
+	
+	}
+return head;
+}
+
+//insert before kth node
+
+link insertBeforeKthNode(link head,int k,int d)
+{
+	link temp = head;
+	link nnode = new node(d,NULL);
+	if(k==1)
+	{
+		nnode->next=head;
+		head=nnode;
+	}
+	else
+	{
+		int count=1;
+	while(temp!=NULL)
+	{
+		if(count==(k-2))
+		{
+			nnode->next=temp->next;
+			temp->next=nnode;
+		}
+		count++;
+		temp=temp->next;
+	}
+	
+	}
+return head;
+}
+
+
+
+// insert 'd' before the first occurence of value 'p'
+
+link insertBeforeP(link head, int p, int d)
+{
+	link nnode = new node(d,NULL);
+	link temp = head;
+	link t;
+	
+	// if head-> data is p
+	if(head->data==p)
+	{
+		nnode->next=head;
+		head=nnode;
+	}
+	else // traverse the rest of the list
+	{
+		while(temp->data!=p)
+		{
+			t = temp;
+			temp = temp->next;
+		}
+		
+		//temp holds the p value
+		nnode->next = t->next;
+		t->next = nnode;
+	}
+	
+	return head;
+	
+
+}
+
+// insert after p
+
+link insertAfterP(link head, int p,int d)
+{
+	link nnode = new node(d,NULL);
+	link temp = head;
+	link t;
+	
+	if(head->data==p)
+	{
+		nnode->next=head->next;
+		head->next = nnode;
+	}
+	else
+	{
+		while(temp->data!=p)
+			temp=temp->next;
+			
+		nnode->next=temp->next;
+		temp->next=nnode;
+	}
+return head;
+}
+
+/** -------------------- DELETION ----------------- **/
+
+//delete at first
+
+link deleteFirst(link head)
+{
+	if(head==NULL) //empty LL
+		return NULL;
+	else if(head->next==NULL)
+	{ // only one element
+		delete head;
+		return head;	
+	}
+	else
+	{
+		link temp = head;
+		head = head->next;
+		delete temp;
+	}
+return head;
+}
+
+// delete last node
+
+link deleteLast(link head)
+{
+	if(head==NULL)
+		return NULL;
+	else if(head->next==NULL)
+		delete head;
+		return head;
+	else
+	{
+		link temp= head;
+		link t;
+		while(temp->next!=NULL)
+		{
+			t=temp;
+			temp=temp->next;
+		}
+			
+		t->next = NULL;
+		delete temp;
+		return head
+	}	
+}
+
+// delete nth node
+
+link deleteNthNode(link head, int n)
+{
+	link temp = head;
+	
+	if(n==1)
+	{
+		head=temp->next;
+		delete temp;
+		return head;
+	}
+	
+	link temp2;
+	for(int i=2;i<(n-1);i++)
+	{
+		temp=temp->next; //temp points to (n-1)th node
+	}
+	
+	temp2=temp->next; // nth node to be deleted
+	temp->next=temp2->next; //(n+1)th node 
+	delete temp2;
+	return head;
+}
+
+// delete search value
+
+link deleteSearch(link head,int search)
+{
+	link temp = head;
+	link t;
+	
+	//if head has the search value
+	if(head->data == search)
+	{
+		head=head->next;
+		delete temp;
+		return head;
+	}
+	
+	else
+	{
+		while(temp->data!=search)
+		{
+			t=temp;
+			temp=temp->next;
+		}
+		// found search t has the value 
+		t->next=temp->next;
+		delete temp;
+		return head;
+	}
+}
+
+// delete one node after searched value node
+
+link deleteOneAfterSearch(link head,int search)
+{
+	link temp = head;
+	link t;
+	if(head->data==search)
+	{
+		t = temp->next;
+		head->next=t->next;
+		delete t;
+		return head;
+	}
+	else
+	{
+		while(temp->data!=search)
+		{
+			t=temp;
+			temp=temp->next;
+		}
+		// temp holds the searched value
+		link t1=temp->next;
+		temp->next=t1->next;
+		delete t1;
+		return head;
+	}
+	
+}
+
+
+// delete last 2 nodes
+
+link deleteLast2(link head)
+{
+	link temp=head;
+	link t;
+	while(temp->next->next!=NULL)
+	{
+		t=temp;
+		temp=temp->next;	
+	}
+	
+	delete temp->next; // holds the last element
+	delete temp; // holds one element before last element;
+	t->next=NULL;
+return head;
+}
+
+
+// delete all except last 2 nodes
+
+link deleteAllExlast2(link head)
+{
+	link temp=head;
+	link t;
+	while(temp->next->next!=NULL)
+	{
+		t=temp;
+		temp=temp->next;
+		delete t;
+		head=temp;
+	}
+	return head;
+}
+
+// delete between p and q
+
+link deleteBetweenPQ(link head,int p,int q)
+{
+	link temp=head;
+	link t;
+	
+	while(temp->data!=p)
+		temp=temp->next;
+	// temp has value p at the end of this loop
+		
+	while(temp->next->data!=q)
+	{
+		t=temp->next;
+		temp->next=t->next;
+		delete t;
+	}
+	return head;
+}
+
+// delete odd nodes
+
+link deleteOddNodes(link head)
+{
+	link temp = head;
+	link t,t1;
+	
+	while(temp!=NULL)
+	{
+		// if head value is odd
+		if(head->data % 2 !=0)
+		{
+			head=head->next;
+			delete temp;
+			temp=head;
+		}
+		else if(temp->data % 2 !=0)
+		{
+			t->next=temp->next;
+			t1=temp->next;
+			delete temp;
+			temp=t1;
+		}
+		else
+		{
+			t=temp;
+			temp=temp->next;
+		}
+	
+	}
+	return head;
+}
+
+/** -------------------- TRAVERSE ----------------- **/
+
+// traverse and count the number of nodes
+
+int countNodes(link head)
+{
+	link temp = head;
+	int count=0;
+	while(temp!=NULL)
+	{
+		count++;
+		temp=temp->next;
+	}
+return count;
+}
+
+// simple traversal and print
+
+void traversePrint(link head)
+{
+	link temp = head;
+	while(temp!=NULL)
+	{
+		cout<<temp->data<<" ,";
+		temp=temp->next;
+	}
+}
+
+
+
